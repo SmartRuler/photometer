@@ -2,60 +2,45 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, 
+									initial-scale=1.0,
+									user-scalable=no,
+									maximum-scale=1.0">
    <title>Picture for Measure</title>
   <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
 	<script type="text/javascript" src="js/jquery-3.2.0.min.js"></script> 
 	<script type="text/javascript" src="js/bootstrap.min.js"></script> 
-	
+	<script type="text/javascript" src="js/canvas2image.js"></script> 
      <!--<script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>-->
-
-	<script type="text/javascript" src="test.js"></script>
+	
+	<script type="text/javascript" src="index.js"></script>
   </head>
   
-  <body>   
-  <div class="container-fluid" style="background-color:#eeeeee">
-	<!-- title -->
-	<div class="row" style="background-color:#b0d0ff">
-		<div class="col-md-12">
-			<div class="page-header">
-				<h1>
-					SmartRuler! <small>measure for convenience</small>
-				</h1>
-			</div>
-			<blockquote class="pull-right">
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
-				</p> <small>Someone famous <cite>Source Title</cite></small>
-			</blockquote>
-		</div>
-	</div>
+  <body style="background-color:#eeeeee">   
+  <div class="container-fluid" style="background-color:#eeeeee">	
 	<!-- picture -->
-	<div class="row" >
-		
-		<div class="col-md-12">
+	<div class="row" >	
+		<div class="col-xs-12">
 			<form action='' method='post' name='myform'>
-			<canvas id="picCanvas" width="400" height="400" style="border:1px solid red"></canvas>
-			</br></br>
-				<div class="col-md-10"></div>
-				<div class="col-md-2">
+			<canvas id="picCanvas" width="300" height="400" style="border:1px solid red"></canvas>			
+				<div class="col-xs-1"></div>
+				<div class="col-xs-11">
 					<input type='file' id='iptfileupload'  value=' ' />
 				</div>
 			</form>
-		</div>
-		
+		</div>		
 	</div>
 	</br>
-	
+	<!--reference info -->
 	<div class="row" >
 		<!-- btn-group -->
-		<div class="col-md-4">
+		<div class="col-xs-6">
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-xs-1">
 				</div>
-				<div class="col-md-6">
+				<div class="col-xs-11">
 					<form role="form" name="refForm">
 						<div class="form-group">
 							<label for="name">Reference Choose</label>
@@ -69,8 +54,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-md-4">
-			<div class="col-md-8">
+		<div class="col-xs-6">
+			<div class="col-xs-12">
 				<form role="form">
 					<div class="form-group">				 
 					<label for="reflen">
@@ -80,34 +65,36 @@
 					</div>			
 				</form>
 			</div>
-			<div class="col-md-4">
-			</br>
-				<button class="btn btn-default" id="cal" >
+			
+		</div>		
+	</div>
+	</br>
+	<!--function button -->
+	<div class="col-xs-12">	
+			<div class="col-xs-1"></div>
+			<div class="col-xs-11">
+			<button class="btn btn-default" id="cal" >
 					Calculate
-				</button>
-			</div>
-		</div>
-		<div class="col-md-4">
-			</br>
-			<button class="btn btn-default" id="resetAll" >
+			</button>			
+			<button class="btn btn-default" id="res" >
 					Reset
 			</button>
+			<button class="btn btn-default" id="sav" >
+					Save
+			</button>
+			</div>
 		</div>
-	</div>
-	</br></br></br></br></br></br></br></br></br>
-	
-	<div class="row" >
-		<div class="col-md-4">
+	<!--<div class="row" >
+		<div class="col-xs-1">
 		</div>
-		<div class="col-md-4">
-					 
+		<div class="col-xs-10">		 
 			<address>
 				<strong>Twitter, Inc.</strong><br /> 795 Folsom Ave, Suite 600<br /> San Francisco, CA 94107<br /> <abbr title="Phone">P:</abbr> (123) 456-7890
 			</address>
 		</div>
-		<div class="col-md-4">
+		<div class="col-xs-1">
 		</div>
-	</div>
+	</div>-->
 </div>
 </body>
 </html>
