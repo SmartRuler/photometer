@@ -6,8 +6,6 @@ var img;
 $(document).ready(function (){
 	var canvas = $("#picCanvas")[0];
 	var cxt = canvas.getContext('2d');
-	//var canvas = document.getElementById("picCanvas");
-	//var cxt = canvas.getContext("2d");
 	
 	cxt.strokeStyle = "#f00";
 	cxt.lineWidth = 3;
@@ -97,7 +95,7 @@ function picInit(c){
     img.src = "1.jpg";
     img.onload = function () {
 		cxt.drawImage(img, 0, 0,c.width,c.height);
-		console.log(c.width,c.height);
+		
     }
 }
 function staInit(){
@@ -125,8 +123,9 @@ function calReferLine(x1,y1,x2,y2){
 }
 
 function drawLines(){
-	var canvas = document.getElementById("picCanvas");
+	var canvas = $("#picCanvas")[0];
 	var cxt = canvas.getContext("2d");
+	var color = "#f00";
 	
 	var moveX,
     moveY,
@@ -135,36 +134,52 @@ function drawLines(){
 	endX,
 	endY;
 	
-	function getCanvasPosX(canvas,e){	
+	function getCanvasPosX(canvas,x){	
 		var rect = canvas.getBoundingClientRect(); 
-		return e.clientX - rect.left * (canvas.width / rect.width);
+		return x - rect.left * (canvas.width / rect.width);
 
 	}
-	function getCanvasPosY(canvas,e){
+	function getCanvasPosY(canvas,y){
 		var rect = canvas.getBoundingClientRect(); 
-		return  e.clientY - rect.top * (canvas.height / rect.height);
+		return  y - rect.top * (canvas.height / rect.height);
 	}
-
-
-	canvas.addEventListener('mousedown', function (e) {
-		moveX = getCanvasPosX(canvas,e);
-		moveY = getCanvasPosY(canvas,e);
-		
-		
-		canvas.addEventListener('mousemove', drawLine);
-		points.push({
-			x: moveX,
-			y: moveY
-		});
 	
-	})
-	canvas.addEventListener('mouseup', function (e) {
-		endX = getCanvasPosX(canvas,e);
-		endY = getCanvasPosY(canvas,e);
+	canvas.addEventListener("touchstart", function (e){
+		e.preventDefault();
+		
+		var touches = e.changedTouches;
+		moveX = getCanvasPosX(canvas,touches[0].pageX);
+		moveY = getCanvasPosY(canvas,touches[0].pageY);
 		
 		points.push({
-			x: endX,
-			y: endY
+			x:moveX,
+			y:moveY
+		});
+		
+		cxt.beginPath();
+		cxt.arc(moveX, moveY, 4, 0, 2 * Math.PI, false);  // a circle at the start
+		cxt.fillStyle = color;
+		cxt.fill();
+	
+		canvas.addEventListener("touchmove",drawLine);
+	});
+	
+	canvas.addEventListener("touchend", function (e){
+		e.preventDefault();
+		
+		var touches = e.changedTouches;
+		endX = getCanvasPosX(canvas,touches[0].pageX);
+		endY = getCanvasPosY(canvas,touches[0].pageY);
+		
+	  
+		cxt.fillStyle = color;
+		cxt.beginPath();
+      
+		cxt.fillRect(endX - 4, endY - 4, 8, 8);
+	  
+		points.push({
+			x:endX,
+			y:endY
 		});
 		
 		for(var i=3;i<points.length;i+=2){	
@@ -172,23 +187,25 @@ function drawLines(){
 											canvasToPicX(points[i].x),canvasToPicY(points[i].y)) / metricPerPixel).toFixed(2) , 
 											(points[i-1].x + points[i].x) / 2 ,(points[i-1].y + points[i].y) / 2 );
 			}
-			
-	
-		
-		
 		canvas.removeEventListener('mousemove', drawLine);
+		
+		
+		
+	});
 	
-	})
-
-	function drawLine(e) {
-		toX = getCanvasPosX(canvas,e);
-		toY = getCanvasPosY(canvas,e);
-	
+	function drawLine(e){
+		e.preventDefault();
+		
+		var touches = e.changedTouches;
+		toX = getCanvasPosX(canvas,touches[0].pageX);
+		toY = getCanvasPosY(canvas,touches[0].pageY);
+		
 		cxt.clearRect(0, 0, canvas.width, canvas.height);		
-		cxt.drawImage(img, 0, 0,canvas.width,canvas.height);		
+		cxt.drawImage(img, 0, 0,canvas.width,canvas.height);	
 		cxt.beginPath();
 		cxt.moveTo(moveX, moveY);
 		cxt.lineTo(toX, toY);
+		
 		
 		for(var i=1;i<points.length;i+=2){
 			cxt.moveTo(points[i-1].x,points[i-1].y);
@@ -205,12 +222,14 @@ function drawLines(){
 											canvasToPicX(points[i].x),canvasToPicY(points[i].y)) / metricPerPixel).toFixed(2) , 
 										(points[i-1].x + points[i].x) / 2 ,(points[i-1].y + points[i].y) / 2 );
 			}
-			}		
+			}	
 	
 		}	
 		cxt.closePath();
 		cxt.stroke();	
-	}}
+	}
+	
+}
 
 function canvasToPicX(m){
 	var wPicToCan = 300 / img.width;
